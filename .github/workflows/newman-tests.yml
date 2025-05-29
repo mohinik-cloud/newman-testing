@@ -21,8 +21,26 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Install Newman
-        run: npm install -g newman
+      - name: Install Newman and HTML Extra Reporter
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
 
       - name: Run Postman Collection
-        run: newman run sample-collection.json -r json --reporter-json-export results.json
+        run: |
+          newman run sample-collection.json \
+          -r json,htmlextra \
+          --reporter-json-export results.json \
+          --reporter-htmlextra-export results.html
+
+      - name: Upload JSON Result
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-results-json
+          path: results.json
+
+      - name: Upload HTML Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-results-html
+          path: results.html
