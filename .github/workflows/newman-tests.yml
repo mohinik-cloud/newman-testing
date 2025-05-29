@@ -2,11 +2,9 @@ name: Run Newman Tests
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   test:
@@ -21,13 +19,14 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Install Newman and htmlextra
-        run: npm install -g newman newman-reporter-htmlextra
+      - name: Install Newman
+        run: npm install -g newman
 
       - name: Run Postman Collection
-        run: |
-          newman run sample-collection.json \
-            --environment weather_api_environment.json \
-            -r json,htmlextra \
-            --reporter-json-export results.json \
-            --reporter-htmlextra-export results.html
+        run: newman run sample-collection.json -r json --reporter-json-export results.json
+
+      - name: Upload JSON Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: newman-json-report
+          path: results.json
