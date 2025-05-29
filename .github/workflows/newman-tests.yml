@@ -29,6 +29,7 @@ jobs:
       - name: Run Postman Collection
         run: |
           newman run sample-collection.json \
+          -e weather_api_environment.json \
           -r json,htmlextra \
           --reporter-json-export results.json \
           --reporter-htmlextra-export results.html
