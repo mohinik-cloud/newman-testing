@@ -2,9 +2,11 @@ name: Run Newman Tests
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   test:
@@ -17,16 +19,10 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "23"
+          node-version: "18"
 
       - name: Install Newman
         run: npm install -g newman
 
       - name: Run Postman Collection
         run: newman run sample-collection.json -r json --reporter-json-export results.json
-
-      - name: Upload JSON Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: newman-json-report
-          path: results.json
