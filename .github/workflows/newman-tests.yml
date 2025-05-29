@@ -2,16 +2,13 @@ name: Run Newman Tests
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -21,14 +18,12 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Install Newman and HTML Extra Reporter
-        run: |
-          npm install -g newman
-          npm install -g newman-reporter-htmlextra
+      - name: Install Newman and htmlextra
+        run: npm install -g newman newman-reporter-htmlextra
 
       - name: Run Postman Collection
         run: |
           newman run sample-collection.json \
-            -r json,htmlextra \
-            --reporter-json-export results.json \
-            --reporter-htmlextra-export results.html
+          -r json,htmlextra \
+          --reporter-json-export results.json \
+          --reporter-htmlextra-export results.html
