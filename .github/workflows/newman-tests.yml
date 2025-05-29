@@ -34,13 +34,13 @@ jobs:
             --reporter-htmlextra-export report.html
 
       - name: Upload JSON Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: newman-json-results
           path: results.json
 
       - name: Upload HTML Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: newman-html-report
           path: report.html
