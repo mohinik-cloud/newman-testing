@@ -23,7 +23,7 @@ jobs:
         run: npm install -g newman
 
       - name: Run Postman Collection
-        run: newman run sample-collection.json -r json --reporter-json-export results.json
+        run: newman run sample-collection.json -e weather_api_environment.json -r json --reporter-json-export results.json
 
       - name: List directory after Newman run
         run: ls -la
