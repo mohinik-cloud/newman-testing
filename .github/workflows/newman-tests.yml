@@ -11,6 +11,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -20,15 +21,13 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Install Newman and HTML Extra Reporter
-        run: |
-          npm install -g newman
-          npm install -g newman-reporter-htmlextra
+      - name: Install Newman and htmlextra
+        run: npm install -g newman newman-reporter-htmlextra
 
-      - name: Run Postman Collection with Environment
+      - name: Run Postman Collection
         run: |
-          newman run "sample-collection.json" \
-          --environment "Weather API Testing.postman_environment.json" \
-          -r json,htmlextra \
-          --reporter-json-export results.json \
-          --reporter-htmlextra-export results.html
+          newman run sample-collection.json \
+            --environment weather_api_environment.json \
+            -r json,htmlextra \
+            --reporter-json-export results.json \
+            --reporter-htmlextra-export results.html

@@ -1,0 +1,27 @@
+{
+	"id": "cc90ee3d-5669-4d69-b4f0-ad65a737b6d0",
+	"name": "Weather API Testing",
+	"values": [
+		{
+			"key": "PLATOAPITESTING",
+			"value": "7ac2f5a57af682817d5203ae5207c18c",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "BaseUrl",
+			"value": "http://api.openweathermap.org",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "cityId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-05-29T17:42:04.548Z",
+	"_postman_exported_using": "Postman/11.46.4"
+}
