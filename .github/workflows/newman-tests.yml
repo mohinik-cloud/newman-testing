@@ -11,6 +11,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -18,10 +19,10 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Install Newman
         run: npm install -g newman
 
       - name: Run Postman Collection
-        run: newman run "day5_assertions.json" -r json --reporter-json-export results.json
+        run: newman run "Day 5_Writing Basic Assertions.postman_test_run.json" -r json --reporter-json-export results.json
