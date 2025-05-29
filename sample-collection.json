@@ -1,0 +1,510 @@
+{
+	"info": {
+		"_postman_id": "9d07bbb0-e46a-41d7-9e95-c78b86a6908a",
+		"name": "Day 5_Writing Basic Assertions",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45174253",
+		"_collection_link": "https://mohinikunwar.postman.co/workspace/6cecd969-3b25-4c07-8088-65158175be9d/collection/45174253-9d07bbb0-e46a-41d7-9e95-c78b86a6908a?action=share&source=collection_link&creator=45174253"
+	},
+	"item": [
+		{
+			"name": "Exercise 1: Writing Basic Assertions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"pm.test(\"Content-Type is is application/json\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/data/2.5/weather?lat=44.34&lon=10.99&appid={{PLATOAPITESTING}}&units=metric",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"weather"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "44.34"
+						},
+						{
+							"key": "lon",
+							"value": "10.99"
+						},
+						{
+							"key": "appid",
+							"value": "{{PLATOAPITESTING}}"
+						},
+						{
+							"key": "units",
+							"value": "metric"
+						},
+						{
+							"key": "units",
+							"value": "imperial",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Exercise 2: Validating JSON Responses",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Weather is an array\", function () {\r",
+							"    pm.expect(jsonData.weather).to.be.an(\"array\");\r",
+							"});\r",
+							"pm.test(\"Main field is a string\", function () {\r",
+							"    pm.expect(jsonData.weather[0].main).to.be.a(\"string\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Temperature is a number\", function () {\r",
+							"    pm.expect(jsonData.main.temp).to.be.a(\"number\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/data/2.5/weather?lat=44.34&lon=10.99&units=metric&appid={{PLATOAPITESTING}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"weather"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "44.34"
+						},
+						{
+							"key": "lon",
+							"value": "10.99"
+						},
+						{
+							"key": "units",
+							"value": "metric"
+						},
+						{
+							"key": "appid",
+							"value": "{{PLATOAPITESTING}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Exercise 3: Using Postman Snippets",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" let jsonData = pm.response.json();\r",
+							"pm.test(\"Response contains name\", function () {\r",
+							"    pm.expect(pm.response.json()).to.have.property(\"name\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Weather array contains a proper main string\", function () {\r",
+							"    // Added declaration for jsonData\r",
+							"    pm.expect(jsonData.weather[0]).to.have.property(\"main\");\r",
+							"    pm.expect(jsonData.weather[0].main).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData.weather[0].main).to.match(/^(Clear|Clouds|Drizzle|Rain|Snow|Thunderstorm|Mist|Smoke|Haze|Dust|Fog|Sand|Ash|Squall|Tornado)$/);\r",
+							"});\r",
+							"const weather = jsonData.weather[0].main;\r",
+							"\r",
+							"pm.test(\"Weather type is valid\", function () {\r",
+							"  pm.expect(\r",
+							"    weather === \"Clear\" ||\r",
+							"    weather === \"Clouds\" ||\r",
+							"    weather === \"Drizzle\" ||\r",
+							"    weather === \"Rain\" ||\r",
+							"    weather === \"Snow\" ||\r",
+							"    weather === \"Thunderstorm\" ||\r",
+							"    weather === \"Mist\" ||\r",
+							"    weather === \"Smoke\" ||\r",
+							"    weather === \"Haze\" ||\r",
+							"    weather === \"Dust\" ||\r",
+							"    weather === \"Fog\" ||\r",
+							"    weather === \"Sand\" ||\r",
+							"    weather === \"Ash\" ||\r",
+							"    weather === \"Squall\" ||\r",
+							"    weather === \"Tornado\"\r",
+							"  ).to.be.true;\r",
+							"});\r",
+							"\r",
+							"const allowedValues = [\r",
+							"  \"Clear\", \"Clouds\", \"Drizzle\", \"Rain\", \"Snow\",\r",
+							"  \"Thunderstorm\", \"Mist\", \"Smoke\", \"Haze\", \"Dust\",\r",
+							"  \"Fog\", \"Sand\", \"Ash\", \"Squall\", \"Tornado\"\r",
+							"];\r",
+							"pm.test(\"Weather type is valid\", function () {\r",
+							"  pm.expect(allowedValues.includes(jsonData.weather[0].main)).to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"weather is an array\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.weather).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body contains name, weather, and main\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"name\");\r",
+							"    pm.expect(jsonData).to.have.property(\"weather\");\r",
+							"    pm.expect(jsonData).to.have.property(\"main\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Temperature is within a reasonable range\", function () {\r",
+							"    let temp = jsonData.main.temp; // Fixed reference to the correct variable for temperature\r",
+							"    pm.expect(temp).to.be.within(-50, 50);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Weather array has at least one item\", function () {\r",
+							"    pm.expect(jsonData.weather.length).to.be.at.least(1); // Fixed reference to the correct variable for weather array\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/data/2.5/weather?lat=44.34&lon=10.99&units=metric&appid={{PLATOAPITESTING}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"weather"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "44.34"
+						},
+						{
+							"key": "lon",
+							"value": "10.99"
+						},
+						{
+							"key": "units",
+							"value": "metric"
+						},
+						{
+							"key": "appid",
+							"value": "{{PLATOAPITESTING}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Exercise 4: Implementing Loops in Tests",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*1.\tExtract the weather array.\r",
+							"2.\tLoop through it to validate each object has the required properties (id, main, description).\r",
+							"3.\tPrint a message in the console for each element.\r",
+							"4.\tExample script:\r",
+							"*/\r",
+							"\r",
+							"let weatherArray = pm.response.json().list;\r",
+							"\r",
+							"weatherArray.forEach((item) => {\r",
+							"    pm.test(`Weather item ${item.weather[0].id} has required properties`, function () {\r",
+							"        pm.expect(item.weather[0]).to.have.property(\"id\");\r",
+							"        pm.expect(item.weather[0]).to.have.property(\"main\");\r",
+							"        pm.expect(item.weather[0]).to.have.property(\"description\");\r",
+							"    });\r",
+							"    console.log(`Weather condition: ${item.weather[0].main} - ${item.weather[0].description} - id ${item.weather[0].id}`);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/data/2.5/forecast?lat=44.34&lon=10.99&appid={{PLATOAPITESTING}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"forecast"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "44.34"
+						},
+						{
+							"key": "lon",
+							"value": "10.99"
+						},
+						{
+							"key": "appid",
+							"value": "{{PLATOAPITESTING}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Exercise 5: Writing Conditional Statements",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"/*1.\tExtract the temp value from main.\r",
+							"2.\tUse an if-else statement to: \r",
+							"o\tLog \"Cold Weather\" if temp is below 10°C.\r",
+							"o\tLog \"Warm Weather\" if temp is above 20°C.\r",
+							"o\tLog \"Moderate Weather\" otherwise.\r",
+							"*/\r",
+							"let temp = pm.response.json().main.temp;\r",
+							"pm.test(\"Temperature check\", function () {\r",
+							"if (temp < 10) {\r",
+							"    console.log(\"Cold Weather\");\r",
+							"} else if (temp > 20) {\r",
+							"    console.log(\"Warm Weather\");\r",
+							"} else {\r",
+							"    console.log(\"Moderate Weather\");\r",
+							"}\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/data/2.5/weather?lat=44.34&lon=10.99&appid={{PLATOAPITESTING}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"weather"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "44.34"
+						},
+						{
+							"key": "lon",
+							"value": "10.99"
+						},
+						{
+							"key": "appid",
+							"value": "{{PLATOAPITESTING}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Exercise 6: Advanced Assertions and Edge Cases",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Write a test to verify that temp_min is never greater than temp_max\r",
+							"pm.test(\"Temp min is not greater than temp max\", function () {\r",
+							"    let jsonData = pm.response.json().main;\r",
+							"    pm.expect(jsonData.temp_min).to.be.at.most(jsonData.temp_max);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"//Write a test to check if the city name contains at least one vowel.\r",
+							"\r",
+							"pm.test(\"City name contains at least one vowel\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    let cityName = jsonData.name.toLowerCase();  // Convert to lowercase to simplify match\r",
+							"\r",
+							"    pm.expect(cityName).to.match(/[aeiou]/);  // RegEx to match any vowel\r",
+							"});\r",
+							"\r",
+							"//3\r",
+							"// This is the correct and working version:\r",
+							"let jsonData = pm.response.json();\r",
+							"\r",
+							"if ([401, 403, 500].includes(pm.response.code)) {\r",
+							"    pm.test(\"API returns error for invalid API key\", function () {\r",
+							"        pm.expect(jsonData).to.have.property(\"message\");\r",
+							"        pm.expect(jsonData.message.toLowerCase()).to.include(\"invalid\");\r",
+							"    });\r",
+							"} else {\r",
+							"    console.log(\"Valid API key used – skipping error validation test.\");\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/data/2.5/weather?lat=44.34&lon=10.99&appid={{PLATOAPITESTING}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"weather"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "44.34"
+						},
+						{
+							"key": "lon",
+							"value": "10.99"
+						},
+						{
+							"key": "appid",
+							"value": "{{PLATOAPITESTING}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Exercise 7: Chaining Requests in Postman",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let originalCityId = pm.response.json().id;\r",
+							"pm.environment.set(\"cityId\", originalCityId);\r",
+							"console.log(originalCityId);\r",
+							"\r",
+							"\r",
+							"pm.sendRequest({\r",
+							"    url:`http://api.openweathermap.org/data/2.5/forecast?id=${originalCityId}&appid=7ac2f5a57af682817d5203ae5207c18c`,\r",
+							"    method: 'GET', \r",
+							"    header: {\r",
+							"        'Content-Type': 'application/json'\r",
+							"    }\r",
+							"}, function (err, res) \r",
+							"    {\r",
+							"        let forecastCityId = res.json().city.id;\r",
+							"        console.log(forecastCityId);\r",
+							"    // 1. Check response status\r",
+							"        pm.test(\"Status code is 200\", function () {\r",
+							"            pm.response.to.have.status(200);\r",
+							"        });\r",
+							"\r",
+							"    // 2. Compare stored city ID to current forecast response\r",
+							"        pm.test(\"City ID matches in both responses\", function () {\r",
+							"            pm.expect(forecastCityId).to.eql(originalCityId);\r",
+							"        });\r",
+							"      \r",
+							"        \r",
+							"    \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/data/2.5/weather?q=London&appid={{PLATOAPITESTING}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"weather"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "London"
+						},
+						{
+							"key": "appid",
+							"value": "{{PLATOAPITESTING}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
