@@ -25,4 +25,4 @@ jobs:
         run: npm install -g newman
 
       - name: Run Postman Collection
-        run: newman run "Day 5_Writing Basic Assertions.postman_test_run.json" -r json --reporter-json-export results.json
+        run: newman run day5_assertions.json -r json --reporter-json-export results.json
